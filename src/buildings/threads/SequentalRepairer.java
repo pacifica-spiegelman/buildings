@@ -1,38 +1,29 @@
 package buildings.threads;
 
 import buildings.Floor;
+import buildings.Space;
+import buildings.patterns.Semaphore;
 
-import java.util.concurrent.Semaphore;
 
 public class SequentalRepairer implements Runnable {
     private Floor floor;
-    private Semaphore sem;
-    private boolean full = false; // выполнился ли поток
-    private String name = "Repairing";
+    private Semaphore semaphore;
 
-    public SequentalRepairer(Floor floor, Semaphore sem){
+    public SequentalRepairer(Floor floor, Semaphore semaphore) {
         this.floor = floor;
-        this.sem = sem;
-        Thread thread = new Thread(this, name);
-        thread.start();
+        this.semaphore = semaphore;
     }
 
-
-
-    @Override
-     public void run() {
-        try{
-            if(!full){
-                sem.acquire();
-                full = true;
-                for (int i = 0; i < floor.getSpaceAmount(); i++) {
-                    System.out.println("Repairing space number " + i + " with total area " + floor.getSpace(i).getArea() + " square meters");
-                    Thread.sleep(300);
-                }
-                sem.release();
-            }
-        }catch (InterruptedException e){
-            System.out.println("Something wrong!");
+    public void run() {
+        int i = 2;
+        for (var space :
+                floor) {
+            semaphore.enter(floor);
+            System.out.println(String.format("Repairer space number %d with total area %f square meters.",
+                    i, ((Space) space).getArea()));
+            i++;
+            semaphore.leave(floor);
         }
+        System.out.println("Cleaner has stopped working");
     }
 }
