@@ -144,7 +144,7 @@ public class OfficeFloor implements Floor {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Space> iterator() {
         return new IteratorFloor(this);
     }
 

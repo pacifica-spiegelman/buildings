@@ -209,7 +209,7 @@ public class OfficeBuilding implements Building, Serializable {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Floor> iterator() {
         return new IteratorBuilding(this);
     }
 }

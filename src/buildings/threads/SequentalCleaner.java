@@ -6,23 +6,20 @@ import buildings.patterns.Semaphore;
 
 
 public class SequentalCleaner implements Runnable {
-    private Floor floor;
     private Semaphore semaphore;
+    private Floor floor;
 
-    public SequentalCleaner( Floor floor, Semaphore semaphore) {
+    public SequentalCleaner(Floor floor, Semaphore semaphore) {
         this.floor = floor;
         this.semaphore = semaphore;
     }
 
     public void run() {
-        int i = 1;
-        for (var space :
-                floor) {
-            semaphore.enter(floor);
+        for (int i = 0; i < floor.getSpaceAmount(); i++) {
+            semaphore.enter();
             System.out.println(String.format("Cleaning space number %d with total area %f square meters.",
-                    i, ((Space) space).getArea()));
-            i++;
-            semaphore.leave(floor);
+                    i, ((Space) floor.getSpace(i)).getArea()));
+            semaphore.leave();
         }
         System.out.println("Cleaner has stopped working");
     }

@@ -6,5 +6,4 @@ public interface Space extends Comparable<Space>{
     double getArea();
     void setArea(int area);
     Object clone() throws CloneNotSupportedException;
-    int compareTo(Space o);
 }

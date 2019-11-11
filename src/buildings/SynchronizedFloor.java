@@ -110,13 +110,13 @@ public class SynchronizedFloor implements Floor{
         for(Space flat: flats) {
             stringFlats.append(flat.toString());
         }
-        return ("DwellingFloor " + "(" + getSpaceAmount() + ", " + stringFlats + ")");
+        return ("Floor " + "(" + getSpaceAmount() + ", " + stringFlats + ")");
     }
 
     @Override
     public synchronized boolean equals(Object obj) {
         boolean flag = false;
-        if(obj instanceof DwellingFloor && ((DwellingFloor) obj).getSpaceAmount() == getSpaceAmount()){
+        if(obj instanceof Floor && ((Floor) obj).getSpaceAmount() == getSpaceAmount()){
             flag = true;
             for(Space flat: flats){
                 if(!flat.equals(obj))
@@ -146,7 +146,7 @@ public class SynchronizedFloor implements Floor{
     }
 
     @Override
-    public synchronized Iterator iterator() {
+    public synchronized Iterator<Space> iterator() {
         return new IteratorFloor(this);
     }
 

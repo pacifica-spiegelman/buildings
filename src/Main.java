@@ -3,12 +3,13 @@ import buildings.dwelling.Dwelling;
 import buildings.dwelling.DwellingFloor;
 import buildings.office.Office;
 import buildings.office.OfficeBuilding;
+import buildings.patterns.Semaphore;
 import buildings.threads.Cleaner;
 import buildings.threads.Repairer;
 import buildings.threads.SequentalCleaner;
 import buildings.threads.SequentalRepairer;
 
-import java.util.concurrent.Semaphore;
+
 
 
 public class Main {
@@ -52,10 +53,9 @@ public class Main {
             }
         }*/
         DwellingFloor floor = new DwellingFloor(10);
-        Semaphore sem = new Semaphore(2);
+        Semaphore sem = new Semaphore(1, floor);
         Thread thread1 = new Thread(new SequentalRepairer(floor, sem));
         Thread thread2 = new Thread(new SequentalCleaner(floor, sem));
-        thread1.setPriority(Thread.MAX_PRIORITY);
         thread1.start();
         thread2.start();
     }

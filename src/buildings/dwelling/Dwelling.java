@@ -189,7 +189,7 @@ public class Dwelling implements Building, Serializable {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Floor> iterator() {
         return new IteratorBuilding(this);
     }
 }

@@ -11,6 +11,4 @@ public interface Floor extends Iterable<Space>, Comparable<Floor>{
     void deleteSpace(int number);
     Space getBestSpace();
     Object clone() throws CloneNotSupportedException;
-    java.util.Iterator iterator();
-    int compareTo(Floor o);
 }

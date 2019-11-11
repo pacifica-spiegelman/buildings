@@ -15,5 +15,4 @@ public interface Building extends Iterable<Floor> {
     Space getBestSpace();
     Space[] getSortArray();
     Object clone() throws CloneNotSupportedException;
-    java.util.Iterator iterator();
 }

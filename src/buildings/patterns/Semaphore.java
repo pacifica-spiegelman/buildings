@@ -3,19 +3,20 @@ package buildings.patterns;
 import buildings.Floor;
 
 public class Semaphore {
-    private int curMax;
+    private int max;
     private int cur;
     private Floor lock;
 
-    public Semaphore(int curMax) {
-        this.curMax = curMax;
+
+    public Semaphore(int curMax, Floor floor) {
+        this.max = curMax;
+        lock = floor;
     }
 
-    public void enter(Floor floor) {
-        lock = floor;
+    public void enter() {
         synchronized (lock) {
             cur++;
-            if (cur > curMax) {
+            if (cur > max) {
                 try {
                     lock.wait();
                 } catch (InterruptedException e) {
@@ -26,8 +27,7 @@ public class Semaphore {
 
     }
 
-    public void leave(Floor floor) {
-        lock = floor;
+    public void leave() {
         synchronized (lock) {
             cur--;
             lock.notify();

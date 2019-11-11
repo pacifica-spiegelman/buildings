@@ -3,7 +3,7 @@ package buildings.patterns;
 import buildings.Floor;
 import buildings.Space;
 
-public class IteratorFloor implements java.util.Iterator {
+public class IteratorFloor implements java.util.Iterator<Space> {
     private int index;
     private Floor floor;
 

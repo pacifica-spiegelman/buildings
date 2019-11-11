@@ -166,7 +166,7 @@ public class Buildings {
         return object;
     }
 
-    public <T> T[] sort(T[] object, Comparator comparator){
+    public <T> T[] sort(T[] object, Comparator<T> comparator){
         for (int i = 0; i < object.length; i++) {
             int minIndex = i;
             for (int j = i+1; j < object.length; j++) {

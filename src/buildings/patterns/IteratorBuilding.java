@@ -5,7 +5,7 @@ import buildings.Floor;
 
 import java.util.Iterator;
 
-public class IteratorBuilding implements Iterator {
+public class IteratorBuilding implements Iterator<Floor> {
     private int index;
     private Building building;
 
@@ -20,7 +20,7 @@ public class IteratorBuilding implements Iterator {
     }
 
     @Override
-    public Object next() {
+    public Floor next() {
         Floor next = null;
         if(hasNext()){
             next = building.getFloor(index+1);
