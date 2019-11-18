@@ -106,7 +106,7 @@ public class OfficeFloor implements Floor {
     public String toString(){
         StringBuffer stringFlats = new StringBuffer();
         for (int i = 1; i <= getSpaceAmount(); i++) {
-            stringFlats.append(getNode(i).toString());
+            stringFlats.append(getNode(i).info.toString());
         }
         return ("OfficeFloor " + "(" + getSpaceAmount() + ", " + stringFlats + ")");
     }

@@ -2,8 +2,6 @@ package buildings;
 
 
 import buildings.office.Office;
-import buildings.office.OfficeBuilding;
-import buildings.office.OfficeFloor;
 import buildings.patterns.BuildingFactory;
 import buildings.patterns.DwellingFactory;
 
@@ -129,7 +127,7 @@ public class Buildings {
         }
     }
 
-    public Building readBuilding(Scanner scanner) {
+    public static Building readBuilding(Scanner scanner) {
         Building result = null;
         if (scanner.hasNext()) {
             String[] s = scanner.next().split(" ");

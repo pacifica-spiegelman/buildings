@@ -171,7 +171,7 @@ public class OfficeBuilding implements Building, Serializable {
     public String toString() {
         StringBuffer stringFloor = new StringBuffer();
         for (int i = 1; i <= getFloorAmount(); i++) {
-            stringFloor.append(getDoubleNode(i).toString());
+            stringFloor.append(getDoubleNode(i).info.toString());
         }
         return ("OfficeBuilding " + "(" + getFloorAmount() + ", " + stringFloor + ")");
     }
