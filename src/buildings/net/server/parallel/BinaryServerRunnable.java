@@ -11,8 +11,8 @@ import buildings.office.Office;
 import buildings.office.OfficeBuilding;
 import buildings.office.OfficeFloor;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
 
@@ -20,6 +20,7 @@ import static buildings.net.server.sequental.BinaryServer.*;
 
 public class BinaryServerRunnable implements Runnable {
     private Socket clientSocket;
+
     public BinaryServerRunnable(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
@@ -28,7 +29,7 @@ public class BinaryServerRunnable implements Runnable {
     public void run() {
         try {
             System.out.println("Client accepted");
-            DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
+            ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
             Space[] office = new Office[1];
             office[0] = new Office(1, 1);
             Floor[] floor = new OfficeFloor[1];
@@ -39,14 +40,13 @@ public class BinaryServerRunnable implements Runnable {
                 if (building != null) {
                     if (building.equals(exitBuilding))
                         break;
-                    float evaluation = evaluateBuilding(building);
+                    double evaluation = evaluateBuilding(building);
                     try {
-                        os.writeFloat(evaluation);
+                        os.writeDouble(evaluation);
                         System.out.println("Got: " + building.getClass().getSimpleName());
                         if (evaluation != ARRESTED) {
                             System.out.println(String.format("The price of the building is: %f", evaluation));
-                        }
-                        else
+                        } else
                             throw new BuildingUnderArrestException();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -73,18 +73,15 @@ public class BinaryServerRunnable implements Runnable {
         return (random.nextInt(100) < 10);
     }
 
-    private static float evaluateBuilding(Building building) {
-        float result = building.getSpaceArea();
+    private static double evaluateBuilding(Building building) {
+        double result = building.getSpaceArea();
         if (building instanceof Hotel) {
             result *= HOTEL_MULTIPLIER;
-        }
-        else if (building instanceof OfficeBuilding) {
+        } else if (building instanceof OfficeBuilding) {
             result *= OFFICE_MULTIPLIER;
-        }
-        else if (building instanceof Dwelling) {
+        } else if (building instanceof Dwelling) {
             result *= DWELLING_MULTIPLIER;
-        }
-        else result = 0;
+        } else result = 0;
         return (isArrested()) ? ARRESTED : result;
     }
 }

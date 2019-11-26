@@ -1,11 +1,9 @@
 package buildings.office;
 
-import List.CycleDoubleLinkedList;
-import List.DoubleNode;
 import buildings.Building;
 import buildings.Floor;
-import buildings.patterns.IteratorBuilding;
 import buildings.Space;
+import buildings.patterns.IteratorBuilding;
 import exceptions.FloorIndexOutOfBoundsException;
 import exceptions.SpaceIndexOutOfBoundsException;
 
@@ -15,7 +13,7 @@ import java.util.Iterator;
 public class OfficeBuilding implements Building, Serializable {
     private CycleDoubleLinkedList floor;
 
-    private DoubleNode getDoubleNode(int number){
+    private CycleDoubleLinkedList.DoubleNode getDoubleNode(int number){
         return floor.getDoubleNode(number);
     }
 
@@ -56,8 +54,8 @@ public class OfficeBuilding implements Building, Serializable {
     }
 
     @Override
-    public int getSpaceArea() {
-        int area = 0;
+    public double getSpaceArea() {
+        double area = 0;
         for (int i = 1; i <= getFloorAmount(); i++) {
             area += getDoubleNode(i).info.getSpaceArea();
         }
@@ -211,5 +209,102 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public Iterator<Floor> iterator() {
         return new IteratorBuilding(this);
+    }
+
+    public class CycleDoubleLinkedList {
+        private DoubleNode head;
+        private int amount;
+
+        public CycleDoubleLinkedList() {
+            head = new DoubleNode(new OfficeFloor(0));
+            head.next = head;
+            head.prev = head;
+            amount = 0;
+        }
+
+        public CycleDoubleLinkedList(int length) {
+            this();
+            this.amount = length;
+        }
+
+        public void addDoubleNodeLast(Floor floor) {
+            if (head != null) {
+                DoubleNode p = new DoubleNode(floor, head, head.prev);
+                head.prev.next = p;
+                head.prev = p;
+            }
+        }
+
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public DoubleNode getDoubleNode(int number) {
+            if (head != null) {
+                DoubleNode p = head.next;
+                int i = 1;
+                while (p != head && i != number) {
+                    p = p.next;
+                    i++;
+                }
+                if (p != head)
+                    return p;
+            }
+            return null;
+        }
+
+        public void addDoubleNode(int number, Floor floor) {
+            if (head != null) {
+                DoubleNode p = head.next;
+                while (p != head && number > 1) {
+                    p = p.next;
+                    number--;
+                }
+                if (p != head) {
+                    DoubleNode q = new DoubleNode(floor, p.next, p);
+                    p.next = q;
+                    q.next.prev = q;
+                    this.amount++;
+                }
+            } else {
+                System.out.println("Ошибка при добавлении элемента!");
+            }
+        }
+
+        public void deleteDoubleNode(int number) {
+            if (head != null) {
+                DoubleNode p = head.next;
+                while (p != head && number > 1) {
+                    p = p.next;
+                    number--;
+                }
+                if (p != head) {
+                    p.next.prev = p.prev;
+                    p.prev.next = p.next;
+                    this.amount--;
+                }
+            } else {
+                System.out.println("Ошибка при удалении элемента!");
+            }
+        }
+
+        public class DoubleNode {
+            public Floor info;
+            public DoubleNode next;
+            public DoubleNode prev;
+
+            public DoubleNode(Floor info){
+                this.info = info;
+                next = null;
+                prev = null;
+            }
+
+            public DoubleNode(Floor info, DoubleNode next, DoubleNode prev){
+                this.info = info;
+                this.next = next;
+                this.prev = prev;
+            }
+        }
     }
 }

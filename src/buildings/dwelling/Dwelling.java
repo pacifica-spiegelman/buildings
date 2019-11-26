@@ -37,8 +37,8 @@ public class Dwelling implements Building, Serializable {
     }
 
     @Override
-    public int getSpaceArea() {
-        int areaFl = 0;
+    public double getSpaceArea() {
+        double areaFl = 0;
         for (int i = 0; i < dFloor.length; i++) {
             areaFl += dFloor[i].getSpaceArea();
         }

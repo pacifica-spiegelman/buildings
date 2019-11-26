@@ -26,8 +26,8 @@ public class DwellingFloor implements Floor {
     }
 
     @Override
-    public int getSpaceArea() {
-        int area = 0;
+    public double getSpaceArea() {
+        double area = 0;
         IteratorFloor iterator = (IteratorFloor) iterator();
         for(Space space: flats){
             area += space.getArea();

@@ -26,8 +26,8 @@ public class SynchronizedFloor implements Floor{
     }
 
     @Override
-    public synchronized int getSpaceArea() {
-        int area = 0;
+    public synchronized double getSpaceArea() {
+        double area = 0;
         IteratorFloor iterator = (IteratorFloor) iterator();
         for(Space space: flats){
             area += space.getArea();

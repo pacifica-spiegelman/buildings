@@ -1,17 +1,15 @@
 package buildings.office;
 
-import List.CycleSingleLinkedList;
-import List.Node;
 import buildings.Floor;
-import buildings.patterns.IteratorFloor;
 import buildings.Space;
+import buildings.patterns.IteratorFloor;
 
 import java.util.Iterator;
 
 public class OfficeFloor implements Floor {
     private CycleSingleLinkedList office;
 
-    private Node getNode(int number){
+    private CycleSingleLinkedList.Node getNode(int number){
         return office.getNode(number);
     }
 
@@ -43,8 +41,8 @@ public class OfficeFloor implements Floor {
     }
 
     @Override
-    public int getSpaceArea() {
-        int area = 0;
+    public double getSpaceArea() {
+        double area = 0;
         IteratorFloor iterator = (IteratorFloor) iterator();
         for (int i = 1; i <= getSpaceAmount(); i++) {
             area += iterator.next().getArea();
@@ -151,5 +149,95 @@ public class OfficeFloor implements Floor {
     @Override
     public int compareTo(Floor o) {
         return Integer.compare(getSpaceAmount(), o.getSpaceAmount());
+    }
+
+    public class CycleSingleLinkedList {
+        private Node head;
+        private int amount;
+
+        public CycleSingleLinkedList(){
+            head = new Node(new Office());
+            head.next = head;
+            amount = 0;
+        }
+
+        public CycleSingleLinkedList(int amount){
+            this();
+            this.amount = amount;
+        }
+
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public Node getNode(int number){
+            if(head != null) {
+                Node p = head.next;
+                int i = 1;
+                while (p != head && i != number) {
+                    p = p.next;
+                    i++;
+                }
+                if (p != head)
+                    return p;
+            }
+            return null;
+        }
+
+
+        public void addNodeLast(Space info){
+            if(head != null){
+                Node p = head;
+                while (p.next != head){
+                    p = p.next;
+                }
+                p.next = new Node(info,head);
+            }
+        }
+
+        public void addNode(int number, Space info){
+            if(head != null){
+                Node p  = head.next;
+                while (p != head && number > 1){
+                    p = p.next;
+                    number--;
+                }
+                if(p != head) {
+                    p.next = new Node(info, p.next);
+                    this.amount++;
+                }
+            }
+        }
+
+        public void deleteNode(int number){
+            if(head != null){
+                Node p = head.next;
+                while (p != head && number > 1){
+                    p = p.next;
+                    number--;
+                }
+                if(p != head) {
+                    p.next = p.next.next;
+                    this.amount--;
+                }
+            }
+        }
+
+        public class Node {
+            public Node next;
+            public Space info;
+
+            public Node(Space info){
+                this.info = info; // maybe new buildings.office.Office()
+                next = null;
+            }
+
+            public Node(Space info, Node next){
+                this.info = info;
+                this.next = next;
+            }
+
+        }
     }
 }

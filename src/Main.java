@@ -52,11 +52,12 @@ public class Main {
                 System.out.println(dwelling.getFloor(i).getSpace(j).getArea());
             }
         }*/
-        DwellingFloor floor = new DwellingFloor(10);
-        Semaphore sem = new Semaphore(1, floor);
-        Thread thread1 = new Thread(new SequentalRepairer(floor, sem));
-        Thread thread2 = new Thread(new SequentalCleaner(floor, sem));
-        thread1.start();
-        thread2.start();
+//        DwellingFloor floor = new DwellingFloor(10);
+//        Semaphore sem = new Semaphore(1, floor);
+//        Thread thread1 = new Thread(new SequentalRepairer(floor, sem));
+//        Thread thread2 = new Thread(new SequentalCleaner(floor, sem));
+//        thread1.start();
+//        thread2.start();
+        new BuildingsForm();
     }
 }

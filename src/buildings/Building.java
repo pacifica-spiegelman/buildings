@@ -3,7 +3,7 @@ package buildings;
 public interface Building extends Iterable<Floor> {
     int getFloorAmount();
     int getSpaceAmount();
-    int getSpaceArea();
+    double getSpaceArea();
     int getSpaceRoom();
     Floor[] getFloorArray();
     Floor getFloor(int number);

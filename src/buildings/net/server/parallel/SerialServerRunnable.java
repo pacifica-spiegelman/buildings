@@ -11,8 +11,8 @@ import buildings.office.Office;
 import buildings.office.OfficeBuilding;
 import buildings.office.OfficeFloor;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
 
@@ -28,7 +28,7 @@ public class SerialServerRunnable implements Runnable {
     public void run() {
         try {
             System.out.println("Client accepted");
-            DataOutputStream os = new DataOutputStream(clientSocket.getOutputStream());
+            ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
             Space[] office = new Office[1];
             office[0] = new Office(1, 1);
             Floor[] floor = new OfficeFloor[1];
@@ -39,9 +39,9 @@ public class SerialServerRunnable implements Runnable {
                 if (building != null) {
                     if (building.equals(exitBuilding))
                         break;
-                    float evaluation = evaluateBuilding(building);
+                    double evaluation = evaluateBuilding(building);
                     try {
-                        os.writeFloat(evaluation);
+                        os.writeDouble(evaluation);
                         System.out.println("Got: " + building.getClass().getSimpleName());
                         if (evaluation != ARRESTED) {
                             System.out.println(String.format("The price of the building is: %f", evaluation));
@@ -73,8 +73,8 @@ public class SerialServerRunnable implements Runnable {
         return (random.nextInt(100) < 10);
     }
 
-    private static float evaluateBuilding(Building building) {
-        float result = building.getSpaceArea();
+    private static double evaluateBuilding(Building building) {
+        double result = building.getSpaceArea();
         if (building instanceof Hotel) {
             result *= HOTEL_MULTIPLIER;
         }

@@ -2,7 +2,7 @@ package buildings;
 
 public interface Floor extends Iterable<Space>, Comparable<Floor>{
     int getSpaceAmount();
-    int getSpaceArea();
+    double getSpaceArea();
     int getSpaceRoom();
     Space[] getSpaceArray();
     Space getSpace(int number);

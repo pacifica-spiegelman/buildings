@@ -45,9 +45,9 @@ public class Buildings {
                 for (int j = 0; j < floorRoomsCount; j++) {
                     int roomNum = din.readInt();
                     din.skipBytes(2);
-                    int area = din.readInt();
+                    double area = din.readDouble();
                     din.skipBytes(2);
-                    Space space = createSpace(area, roomNum);
+                    Space space = createSpace(roomNum, area);
                     spaces[j] = space;
                 }
                 floors[i] = createFloor(spaces);
@@ -85,11 +85,11 @@ public class Buildings {
             Floor[] floors = new Floor[floorsNum];
             for (int i = 0; i < floorsNum; i++) {
                 int floorRoomsCount = Integer.parseInt(s[count++]);
-                Space[] spaces = new Office[floorRoomsCount];
+                Space[] spaces = new Space[floorRoomsCount];
                 for (int j = 0; j < floorRoomsCount; j++) {
                     int roomNum = Integer.parseInt(s[count++]);
-                    int area = Integer.parseInt(s[count++]);
-                    Space space = createSpace(area, roomNum);
+                    double area = Double.parseDouble(s[count++]);
+                    Space space = createSpace(roomNum, area);
                     spaces[j] = space;
                 }
                 floors[i] = createFloor(spaces);
@@ -139,8 +139,8 @@ public class Buildings {
                 Space[] offices = new Space[floorRoomsCount];
                 for (int j = 0; j < floorRoomsCount; j++) {
                     int roomNum = Integer.parseInt(s[count++]);
-                    int area = Integer.parseInt(s[count++]);
-                    Space space = createSpace(area, roomNum);
+                    double area = Double.parseDouble(s[count++]);
+                    Space space = createSpace(roomNum, area);
                     offices[j] = space;
                 }
                 floors[i] = createFloor(offices);

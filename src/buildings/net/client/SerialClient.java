@@ -16,16 +16,15 @@ public class SerialClient {
         OutputStream out = socket.getOutputStream();
         try (FileReader reader = new FileReader("netBuildings.dat")) {
             BufferedReader bReader = new BufferedReader(reader);
-            String line;
             Scanner inputReader = new Scanner(new FileReader("netInput.dat"));
-            while ((line = bReader.readLine()) != null) {
+            while ((bReader.readLine()) != null) {
                 Building newBuilding = Buildings.readBuilding(inputReader);
                 Buildings.serializeBuilding(newBuilding, out);
                 System.out.println(String.format("Read building from file and sent: %s", newBuilding));
             }
             inputReader.close();
         }
-        DataInputStream din = new DataInputStream(socket.getInputStream());
+        ObjectInputStream din = new ObjectInputStream(socket.getInputStream());
         FileWriter fw = new FileWriter("netOutput.txt");
         while (true) {
             if (din.available() > 0) {
