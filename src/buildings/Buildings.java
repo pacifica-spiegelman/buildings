@@ -6,6 +6,8 @@ import buildings.patterns.BuildingFactory;
 import buildings.patterns.DwellingFactory;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -57,6 +59,33 @@ public class Buildings {
         return result;
     }
 
+    //use Reflation
+    public static Building inputBuilding(InputStream in, Class buildingClass, Class floorClass, Class spaceClass) throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        DataInputStream din = new DataInputStream(in);
+        Building result = null;
+        if (din.available() > 0) {
+            int floorsNum = din.readInt();
+            din.skipBytes(2);
+            Floor[] floors = new Floor[floorsNum];
+            for (int i = 0; i < floorsNum; i++) {
+                int floorRoomsCount = din.readInt();
+                din.skipBytes(2);
+                Space[] spaces = new Space[floorRoomsCount];
+                for (int j = 0; j < floorRoomsCount; j++) {
+                    int roomNum = din.readInt();
+                    din.skipBytes(2);
+                    double area = din.readDouble();
+                    din.skipBytes(2);
+                    Space space = createSpace(roomNum, area, spaceClass);
+                    spaces[j] = space;
+                }
+                floors[i] = createFloor(spaces, floorClass);
+            }
+            result = createBuilding(floors, buildingClass);
+        }
+        return result;
+    }
+
     public static void writeBuilding(Building building, Writer out) throws IOException {
         if (building != null) {
             int floorsCount = building.getFloorAmount();
@@ -95,6 +124,31 @@ public class Buildings {
                 floors[i] = createFloor(spaces);
             }
             result = createBuilding(floors);
+        }
+        return result;
+    }
+
+    // use Reflation
+    public static Building readBuilding(Reader in, Class buildingClass, Class floorClass, Class spaceClass) throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        BufferedReader bin = new BufferedReader(in);
+        Building result = null;
+        if (bin.ready()) {
+            String[] s = bin.readLine().split(" ");
+            int count = 0;
+            int floorsNum = Integer.parseInt(s[count++]);
+            Floor[] floors = new Floor[floorsNum];
+            for (int i = 0; i < floorsNum; i++) {
+                int floorRoomsCount = Integer.parseInt(s[count++]);
+                Space[] spaces = new Space[floorRoomsCount];
+                for (int j = 0; j < floorRoomsCount; j++) {
+                    int roomNum = Integer.parseInt(s[count++]);
+                    double area = Double.parseDouble(s[count++]);
+                    Space space = createSpace(roomNum, area, spaceClass);
+                    spaces[j] = space;
+                }
+                floors[i] = createFloor(spaces, floorClass);
+            }
+            result = createBuilding(floors, buildingClass);
         }
         return result;
     }
@@ -150,11 +204,35 @@ public class Buildings {
         return result;
     }
 
-    public <T extends Comparable<T>> T[] sort(T[] object){
+    // use Reflation
+    public static Building readBuilding(Scanner scanner, Class buildingClass, Class floorClass, Class spaceClass) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Building result = null;
+        if (scanner.hasNext()) {
+            String[] s = scanner.next().split(" ");
+            int count = 0;
+            int floorsNum = Integer.parseInt(s[count++]);
+            Floor[] floors = new Floor[floorsNum];
+            for (int i = 0; i < floorsNum; i++) {
+                int floorRoomsCount = Integer.parseInt(s[count++]);
+                Space[] offices = new Space[floorRoomsCount];
+                for (int j = 0; j < floorRoomsCount; j++) {
+                    int roomNum = Integer.parseInt(s[count++]);
+                    double area = Double.parseDouble(s[count++]);
+                    Space space = createSpace(roomNum, area, spaceClass);
+                    offices[j] = space;
+                }
+                floors[i] = createFloor(offices, floorClass);
+            }
+            result = createBuilding(floors, buildingClass);
+        }
+        return result;
+    }
+
+    public <T extends Comparable<T>> T[] sort(T[] object) {
         for (int i = 0; i < object.length; i++) {
             int minIndex = i;
-            for (int j = i+1; j < object.length; j++) {
-                if(object[j].compareTo(object[minIndex]) < 0)
+            for (int j = i + 1; j < object.length; j++) {
+                if (object[j].compareTo(object[minIndex]) < 0)
                     minIndex = j;
             }
             T swapBuf = object[i];
@@ -164,11 +242,11 @@ public class Buildings {
         return object;
     }
 
-    public <T> T[] sort(T[] object, Comparator<T> comparator){
+    public <T> T[] sort(T[] object, Comparator<T> comparator) {
         for (int i = 0; i < object.length; i++) {
             int minIndex = i;
-            for (int j = i+1; j < object.length; j++) {
-                if(comparator.compare(object[j], object[minIndex]) < 0)
+            for (int j = i + 1; j < object.length; j++) {
+                if (comparator.compare(object[j], object[minIndex]) < 0)
                     minIndex = j;
             }
             T swapBuf = object[i];
@@ -178,35 +256,91 @@ public class Buildings {
         return object;
     }
 
+    // use Factory
     public static void setBuildingFactory(BuildingFactory buildingFactory) {
         Buildings.buildingFactory = buildingFactory;
     }
 
-    public static Space createSpace(double area){
+    public static Space createSpace(double area) {
         return buildingFactory.createSpace(area);
     }
 
-    public static Space createSpace(int roomsCount, double area){
+    public static Space createSpace(int roomsCount, double area) {
         return buildingFactory.createSpace(roomsCount, area);
     }
 
-    public static Floor createFloor(int spacesCount){
+    public static Floor createFloor(int spacesCount) {
         return buildingFactory.createFloor(spacesCount);
     }
 
-    public static Floor createFloor(Space[] spaces){
+    public static Floor createFloor(Space[] spaces) {
         return buildingFactory.createFloor(spaces);
     }
 
-    public static Building createBuilding(int floorsCount, int[] spacesCounts){
+    public static Building createBuilding(int floorsCount, int[] spacesCounts) {
         return buildingFactory.createBuilding(floorsCount, spacesCounts);
     }
 
-    public static Building createBuilding(Floor[] floors){
+    public static Building createBuilding(Floor[] floors) {
         return buildingFactory.createBuilding(floors);
     }
 
-    public static Floor synchronizedFloor (Floor floor){
+    public static Floor synchronizedFloor(Floor floor) {
         return new SynchronizedFloor(floor.getSpaceArray());
+    }
+
+    // use Reflection
+    public static Space createSpace(double area, Class spaceClass) {
+        try {
+            Constructor<?> constructor = spaceClass.getConstructor(double.class);
+            return (Space) constructor.newInstance(area);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static Space createSpace(int roomsCount, double area, Class spaceClass) {
+        try {
+            Constructor<?> constructor = spaceClass.getConstructor(double.class, int.class);
+            return (Space) constructor.newInstance(area, roomsCount);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static Floor createFloor(int spacesCount, Class floorClass) {
+        try {
+            Constructor<?> constructor = floorClass.getConstructor(int.class);
+            return (Floor) constructor.newInstance(spacesCount);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static Floor createFloor(Space[] spaces, Class floorClass) {
+        try {
+            Constructor<?> constructor = floorClass.getConstructor(Space[].class);
+            return (Floor) constructor.newInstance((Object) spaces);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static Building createBuilding(int floorsCount, int[] spacesCounts, Class buildingClass) {
+        try {
+            Constructor<?> constructor = buildingClass.getConstructor(int.class, int[].class);
+            return (Building) constructor.newInstance(floorsCount, spacesCounts);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static Building createBuilding(Floor[] floors, Class buildingClass) {
+        try {
+            Constructor<?> constructor = buildingClass.getConstructor(Floor[].class);
+            return (Building) constructor.newInstance((Object) floors);
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
+            throw new IllegalArgumentException();
+        }
     }
 }

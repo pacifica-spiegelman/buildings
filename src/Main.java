@@ -1,6 +1,9 @@
+import buildings.Building;
+import buildings.Buildings;
 import buildings.Floor;
 import buildings.dwelling.Dwelling;
 import buildings.dwelling.DwellingFloor;
+import buildings.dwelling.Flat;
 import buildings.office.Office;
 import buildings.office.OfficeBuilding;
 import buildings.patterns.Semaphore;
@@ -9,7 +12,10 @@ import buildings.threads.Repairer;
 import buildings.threads.SequentalCleaner;
 import buildings.threads.SequentalRepairer;
 
-
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class Main {
@@ -58,6 +64,24 @@ public class Main {
 //        Thread thread2 = new Thread(new SequentalCleaner(floor, sem));
 //        thread1.start();
 //        thread2.start();
-        new BuildingsForm();
+        //new BuildingsForm();
+        Class<?> dwelling = null;
+        Class<?> floor = null;
+        Class<?> space = null;
+
+        try {
+            dwelling = Class.forName(Dwelling.class.getName());
+            floor = Class.forName(DwellingFloor.class.getName());
+            space = Class.forName(Flat.class.getName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Building building = null;
+        try {
+            building = Buildings.readBuilding(new FileReader(new File("C:\\Users\\Nastya\\Desktop\\09. Input.txt")), dwelling, floor, space);
+        } catch (IOException | InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        System.out.println(building.toString());
     }
 }
