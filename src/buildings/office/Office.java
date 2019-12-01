@@ -23,22 +23,27 @@ public class Office implements Space {
         this.room = room;
     }
 
+    @Override
     public double getArea() {
         return area;
     }
 
+    @Override
     public void setArea(int area) {
         this.area = area;
     }
 
+    @Override
     public int getRoom() {
         return room;
     }
 
+    @Override
     public void setRoom(int room) {
         this.room = room;
     }
 
+    @Override
     public String toString(){
         return ("Office " + "(" + room + ", " + area + ")");
     }

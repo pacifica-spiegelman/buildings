@@ -27,7 +27,7 @@ public class HotelFloor extends DwellingFloor {
 
     @Override
     public String toString() {
-        StringBuffer stringFlats = new StringBuffer();
+        StringBuilder stringFlats = new StringBuilder();
         for(Space flat: getSpaceArray()) {
             stringFlats.append(flat.toString());
         }

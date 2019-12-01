@@ -1,6 +1,7 @@
 package buildings.dwelling;
 
 import buildings.Building;
+import buildings.Buildings;
 import buildings.Floor;
 import buildings.patterns.IteratorBuilding;
 import buildings.Space;
@@ -11,14 +12,14 @@ import java.util.Iterator;
 public class Dwelling implements Building, Serializable {
     private Floor[] dFloor;
 
-    public Dwelling(int numOfFloor, int[] flats){
+    public Dwelling(int numOfFloor, int...flats){
         dFloor  = new Floor[numOfFloor];
         for (int i = 0; i < dFloor.length; i++) {
             dFloor[i] = new DwellingFloor(flats[i]);
         }
     }
 
-    public Dwelling(Floor[] dFloor){
+    public Dwelling(Floor...dFloor){
         this.dFloor = dFloor;
     }
 
@@ -119,37 +120,26 @@ public class Dwelling implements Building, Serializable {
         }
     }
 
+    @Override
     public Space getBestSpace(){ // получения самой большой по площади квартиры дома
         return getSortArray()[0];
     }
 
     @Override
     public Space[] getSortArray() {
-        Space[] flatSort = new Space[getSpaceRoom()];
-        int start = 0;
-        for (int j = 0, k = 0; j < dFloor.length; j++) {
-            for (int i = 0; i < dFloor[j].getSpaceArray().length; i++) {
-                flatSort[k] = dFloor[j].getSpaceArray()[i];
+        Space[] spaceSort = new Space[getSpaceAmount()];
+        for (int i = 0, k = 0; i < getFloorAmount(); i++) {
+            for (int j = 0; j < getFloor(i).getSpaceAmount(); j++) {
+                spaceSort[k] = getFloor(i).getSpace(j);
                 k++;
             }
         }
-        for (int i = 0; i < flatSort.length; i++) {
-            double maxArea = 0;
-            for (int j = i; j < flatSort.length; j++) {
-                if(flatSort[j].getArea() > maxArea){
-                    maxArea = flatSort[j].getArea();
-                    Space flat = flatSort[i];
-                    flatSort[i] = flatSort[j];
-                    flatSort[j] = flat;
-                }
-            }
-        }
-        return flatSort;
+        return Buildings.sort(spaceSort, (o1, o2) -> -Double.compare(((Space) o1).getArea(), ((Space) o2).getArea()));
     }
 
     @Override
     public String toString() {
-        StringBuffer stringFloor = new StringBuffer();
+        StringBuilder stringFloor = new StringBuilder();
         for(Floor floor: dFloor) {
             stringFloor.append(floor.toString());
         }

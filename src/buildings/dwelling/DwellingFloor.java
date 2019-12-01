@@ -16,7 +16,7 @@ public class DwellingFloor implements Floor {
         }
     }
 
-    public DwellingFloor(Space[] flats){
+    public DwellingFloor(Space...flats){
         this.flats = flats;
     }
 
@@ -93,6 +93,7 @@ public class DwellingFloor implements Floor {
         flats = flat;
     }
 
+    @Override
     public Space getBestSpace(){
         Space flat = null;
         double max = 0;
@@ -105,8 +106,9 @@ public class DwellingFloor implements Floor {
         return flat;
     }
 
+    @Override
     public String toString(){
-        StringBuffer stringFlats = new StringBuffer();
+        StringBuilder stringFlats = new StringBuilder();
         for(Space flat: flats) {
             stringFlats.append(flat.toString());
         }

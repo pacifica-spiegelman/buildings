@@ -28,7 +28,7 @@ public class OfficeFloor implements Floor {
         }
     }
 
-    public OfficeFloor(Space[] offices){
+    public OfficeFloor(Space...offices){
         office = new CycleSingleLinkedList();
         for (Space value : offices) {
             office.addNodeLast(value);
@@ -88,6 +88,7 @@ public class OfficeFloor implements Floor {
         deleteNode(number);
     }
 
+    @Override
     public Space getBestSpace(){
         double area = 0;
         Space bestOffice = null;
@@ -101,8 +102,9 @@ public class OfficeFloor implements Floor {
         return bestOffice;
     }
 
+    @Override
     public String toString(){
-        StringBuffer stringFlats = new StringBuffer();
+        StringBuilder stringFlats = new StringBuilder();
         for (int i = 1; i <= getSpaceAmount(); i++) {
             stringFlats.append(getNode(i).info.toString());
         }

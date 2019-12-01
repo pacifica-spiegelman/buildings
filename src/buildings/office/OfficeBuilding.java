@@ -25,14 +25,14 @@ public class OfficeBuilding implements Building, Serializable {
         floor.deleteDoubleNode(number);
     }
 
-    public OfficeBuilding(int amount, int[] numOffices){
+    public OfficeBuilding(int amount, int... numOffices){
         floor = new CycleDoubleLinkedList(amount);
         for (int i = 0; i < amount ; i++) {
             floor.addDoubleNodeLast(new OfficeFloor(numOffices[i]));
         }
     }
 
-    public OfficeBuilding(Floor[] floors){
+    public OfficeBuilding(Floor...floors){
         floor = new CycleDoubleLinkedList();
         for(Floor value: floors){
             floor.addDoubleNodeLast(value);
@@ -139,6 +139,7 @@ public class OfficeBuilding implements Building, Serializable {
         }
     }
 
+    @Override
     public Space[] getSortArray(){
         Space[] spaces = new Space[getSpaceAmount()];
         for (int i = 1, k = 0; i <= getFloorAmount(); i++) {
@@ -161,13 +162,14 @@ public class OfficeBuilding implements Building, Serializable {
         return spaces;
     }
 
+    @Override
     public Space getBestSpace(){
         return getSortArray()[0];
     }
 
     @Override
     public String toString() {
-        StringBuffer stringFloor = new StringBuffer();
+        StringBuilder stringFloor = new StringBuilder();
         for (int i = 1; i <= getFloorAmount(); i++) {
             stringFloor.append(getDoubleNode(i).info.toString());
         }

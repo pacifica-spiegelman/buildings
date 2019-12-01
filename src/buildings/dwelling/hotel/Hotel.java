@@ -6,11 +6,11 @@ import buildings.dwelling.Dwelling;
 
 public class Hotel extends Dwelling {
 
-    public Hotel(int numOfFloor, int[] flats) {
+    public Hotel(int numOfFloor, int...flats) {
         super(numOfFloor, flats);
     }
 
-    public Hotel(Floor[] dFloor) {
+    public Hotel(Floor...dFloor) {
         super(dFloor);
     }
 
@@ -44,7 +44,7 @@ public class Hotel extends Dwelling {
 
     @Override
     public String toString() {
-        StringBuffer stringFloor = new StringBuffer();
+        StringBuilder stringFloor = new StringBuilder();
         for(Floor floor: getFloorArray()) {
             stringFloor.append(floor.toString());
         }

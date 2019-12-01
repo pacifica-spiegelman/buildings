@@ -64,24 +64,26 @@ public class Main {
 //        Thread thread2 = new Thread(new SequentalCleaner(floor, sem));
 //        thread1.start();
 //        thread2.start();
-        //new BuildingsForm();
-        Class<?> dwelling = null;
-        Class<?> floor = null;
-        Class<?> space = null;
 
-        try {
-            dwelling = Class.forName(Dwelling.class.getName());
-            floor = Class.forName(DwellingFloor.class.getName());
-            space = Class.forName(Flat.class.getName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        Building building = null;
-        try {
-            building = Buildings.readBuilding(new FileReader(new File("C:\\Users\\Nastya\\Desktop\\09. Input.txt")), dwelling, floor, space);
-        } catch (IOException | InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        System.out.println(building.toString());
+        //new BuildingsForm();
+
+//        Class<?> dwelling = null;
+//        Class<?> floor = null;
+//        Class<?> space = null;
+//
+//        try {
+//            dwelling = Class.forName(Dwelling.class.getName());
+//            floor = Class.forName(DwellingFloor.class.getName());
+//            space = Class.forName(Flat.class.getName());
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Building building = null;
+//        try {
+//            building = Buildings.readBuilding(new FileReader(new File("C:\\Users\\Nastya\\Desktop\\09. Input.txt")), dwelling, floor, space);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(building.toString());
     }
 }

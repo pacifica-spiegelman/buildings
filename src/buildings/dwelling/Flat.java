@@ -23,22 +23,27 @@ public class Flat implements Space, Cloneable{
         this.room = flats;
     }
 
+    @Override
     public int getRoom(){
         return room;
     }
 
+    @Override
     public void setRoom(int roomUs){
         room = roomUs;
     }
 
+    @Override
     public double getArea(){
         return area;
     }
 
+    @Override
     public void setArea(int areaUs){
         area = areaUs;
     }
 
+    @Override
     public String toString(){
         return ("Flat " + "(" + room + ", " + area + ")");
     }

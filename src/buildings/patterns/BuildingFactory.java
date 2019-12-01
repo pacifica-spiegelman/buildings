@@ -11,9 +11,9 @@ public interface BuildingFactory {
 
     public Floor createFloor(int spacesCount);
 
-    public Floor createFloor(Space[] spaces);
+    public Floor createFloor(Space...spaces);
 
-    public Building createBuilding(int floorsCount, int[] spacesCounts);
+    public Building createBuilding(int floorsCount, int...spacesCounts);
 
-    public Building createBuilding(Floor[] floors);
+    public Building createBuilding(Floor...floors);
 }
