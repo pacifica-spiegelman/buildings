@@ -1,6 +1,7 @@
 package buildings.office;
 
 import buildings.Building;
+import buildings.Buildings;
 import buildings.Floor;
 import buildings.Space;
 import buildings.patterns.IteratorBuilding;
@@ -148,18 +149,7 @@ public class OfficeBuilding implements Building, Serializable {
                 k++;
             }
         }
-        for (int i = 0; i < spaces.length; i++) {
-            double maxArea = 0;
-            for (int j = i; j < spaces.length; j++) {
-                if (spaces[j].getArea() > maxArea) {
-                    maxArea = spaces[j].getArea();
-                    Space flat = spaces[i];
-                    spaces[i] = spaces[j];
-                    spaces[j] = flat;
-                }
-            }
-        }
-        return spaces;
+        return Buildings.sort(spaces, (o1, o2) -> -Double.compare(((Space) o1).getArea(), ((Space) o2).getArea()));
     }
 
     @Override

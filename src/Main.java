@@ -65,7 +65,7 @@ public class Main {
 //        thread1.start();
 //        thread2.start();
 
-        //new BuildingsForm();
+        new BuildingsForm();
 
 //        Class<?> dwelling = null;
 //        Class<?> floor = null;
